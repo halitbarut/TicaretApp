@@ -12,20 +12,21 @@ A simple e-commerce backend application built with FastAPI and SQLite. This proj
 - **SQLite**: Server-less, self-contained database.
 - **Interactive API Docs**: Automatic documentation via Swagger UI and ReDoc.
 
-## Project Structure
+```
 TicaretApp/
 ├── ticaretapp/
-│ ├── init.py
-│ ├── crud.py
-│ ├── database.py
-│ ├── main.py
-│ ├── models.py
-│ ├── schemas.py
-│ └── security.py
+│   ├── __init__.py
+│   ├── crud.py
+│   ├── database.py
+│   ├── main.py
+│   ├── models.py
+│   ├── schemas.py
+│   └── security.py
 ├── .gitignore
+├── LICENSE
 ├── README.md
-├── requirements.txt
-└── (venv/)
+└── requirements.txt
+```
 
 
 ## Getting Started
