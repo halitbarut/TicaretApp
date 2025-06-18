@@ -80,9 +80,13 @@ Once the server is running, you can access the interactive API documentation at:
 
 You can use this interface to test all the available endpoints, such as creating users and adding products.
 
-## Next Steps / To-Do
-- [ ] Implement user authentication (OAuth2 with JWT tokens).
-- [ ] Add endpoints for updating and deleting users and products.
-- [ ] Implement ownership verification for product modification.
+### Completed
+- [x] Implement user authentication (OAuth2 with JWT tokens).
+- [x] Add endpoints for updating and deleting products.
+- [x] Implement ownership verification for product modification.
+
+### Next Steps
+- [ ] Add CRUD operations for Users (update, delete).
 - [ ] Add more models (e.g., Orders, Cart).
 - [ ] Write unit and integration tests.
+- [ ] Implement pagination for all list endpoints.
