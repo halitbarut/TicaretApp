@@ -31,34 +31,28 @@ def add_product(
     return crud.create_user_product(db=db, product=product, user_id=current_user.id)
 
 
-
-@router.delete("/{product_id}", response_model=dict)
-def delete_product(product_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
-    if current_user is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    product = crud.get_product_by_id(db=db, product_id=product_id)
-    if not product:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
-    if product.owner_id == current_user.id:
-        return crud.delete_product(db=db, product_id=product_id)
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You can only delete your own products.")
-
-
 @router.put("/{product_id}", response_model=schemas.Product)
-def update_product(product_id: int, product: schemas.ProductCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
-    if current_user is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    old_product = crud.get_product_by_id(db=db, product_id=product_id)
-    if not old_product:
+def update_product(product_id: int, product_update: schemas.ProductCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    db_product = crud.get_product_by_id(db, product_id)
+
+    if not db_product:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
-    if old_product.owner_id == current_user.id:
-        return crud.update_product(db=db, product_id=product_id, product=product)
-    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You can only edit your own products.")
+
+    if db_product.owner_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You can only edit your own products.")
+
+    return crud.update_product(db=db, db_product=db_product, product_update=product_update)
+
+@router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_product(product_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    db_product = crud.get_product_by_id(db, product_id)
+
+    if not db_product:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+
+    if db_product.owner_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You can only delete your own products.")
+
+    crud.delete_product(db,db_product)
+
+    return None
