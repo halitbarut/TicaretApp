@@ -84,9 +84,10 @@ You can use this interface to test all the available endpoints, such as creating
 - [x] Implement user authentication (OAuth2 with JWT tokens).
 - [x] Add endpoints for updating and deleting products.
 - [x] Implement ownership verification for product modification.
+- [x] Implement Shopping Cart system.
 
 ### Next Steps
 - [ ] Add CRUD operations for Users (update, delete).
-- [ ] Add more models (e.g., Orders, Cart).
+- [ ] Implement Order placement system.
 - [ ] Write unit and integration tests.
 - [ ] Implement pagination for all list endpoints.
