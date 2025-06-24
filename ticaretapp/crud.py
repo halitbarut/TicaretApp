@@ -75,3 +75,41 @@ def update_product(db: Session, db_product: models.Product, product_update: sche
 def delete_product(db: Session, product: models.Product) -> None:
     db.delete(product)
     db.commit()
+
+def get_or_create_cart(db: Session, user_id: int) -> models.Cart:
+    db_cart = db.query(models.Cart).filter(models.Cart.owner_id == user_id).first()
+    if not db_cart:
+        db_cart = models.Cart(owner_id=user_id)
+        db.add(db_cart)
+        db.commit()
+        db.refresh(db_cart)
+    return db_cart
+
+
+def add_item_to_cart(db: Session, cart_id: int, product_id: int, quantity: int) -> models.CartItem:
+    db_cart_item = db.query(models.CartItem).filter(
+        models.CartItem.cart_id == cart_id,
+        models.CartItem.product_id == product_id
+    ).first()
+
+    if db_cart_item:
+        db_cart_item.quantity += quantity
+    else:
+        db_cart_item = models.CartItem(cart_id=cart_id, product_id=product_id, quantity=quantity)
+        db.add(db_cart_item)
+
+    db.commit()
+    db.refresh(db_cart_item)
+    return db_cart_item
+
+def remove_item_from_cart(db: Session, cart_id: int, product_id: int):
+    db_cart_item = db.query(models.CartItem).filter(
+        models.CartItem.cart_id == cart_id,
+        models.CartItem.product_id == product_id
+    ).first()
+
+    if db_cart_item:
+        db.delete(db_cart_item)
+        db.commit()
+        return True
+    return False

@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
 
 class ProductBase(BaseModel):
     name: str
@@ -37,3 +38,28 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+
+class CartItemBase(BaseModel):
+    product_id : int
+    quantity: int = Field(1, gt=0, description="Number of products to add to the cart")
+
+class CartItemCreate(CartItemBase):
+    pass
+
+class CartItem(CartItemBase):
+    id: int
+    product: Product
+
+class Config:
+    from_attributes = True
+
+class CartBase(BaseModel):
+    pass
+
+class Cart(CartBase):
+    id: int
+    owner_id: int
+    items: List[CartItem] = []
+
+    class Config:
+        from_attributes = True

@@ -6,12 +6,13 @@ from starlette import status
 
 from . import crud, models, schemas, config, security
 from .database import engine, get_db
-from .routers import users, products
+from .routers import users, products, cart
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 app.include_router(users.router)
 app.include_router(products.router)
+app.include_router(cart.router)
 
 
 @app.get("/")
