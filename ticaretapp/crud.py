@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from starlette import status
@@ -26,8 +28,28 @@ def authenticate_user(db: Session, email: str, password: str) -> models.User | b
     return user
 
 
-def get_products(db: Session, skip: int = 0, limit: int = 100) -> list[models.Product]:
-    return db.query(models.Product).offset(skip).limit(limit).all()
+def get_products(
+    db: Session,
+    search: Optional[str] = None,
+    min_price: Optional[float] = None,
+    max_price: Optional[float] = None,
+    skip: int = 0,
+    limit: int = 100
+) -> list[models.Product]:
+    query = db.query(models.Product)
+    if search:
+        search_term = f"%{search}%"
+        query = query.filter(models.Product.name.ilike(search_term))
+
+    if min_price is not None:
+        query = query.filter(models.Product.price >= min_price)
+
+    if max_price is not None:
+        query = query.filter(models.Product.price <= max_price)
+
+    products = query.offset(skip).limit(limit).all()
+
+    return products
 
 def get_product_by_id(db: Session, product_id: int) -> models.Product | None:
     return db.query(models.Product).filter(models.Product.id == product_id).first()

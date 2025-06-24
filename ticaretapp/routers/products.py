@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 
 from .. import crud, models, schemas
 from ..database import get_db
@@ -13,8 +13,23 @@ router = APIRouter(
 
 
 @router.get("/", response_model=list[schemas.Product])
-def read_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return crud.get_products(db, skip=skip, limit=limit)
+def read_products(
+    db: Session = Depends(get_db),
+    search: Optional[str] = None,
+    min_price: Optional[float] = None,
+    max_price: Optional[float] = None,
+    skip: int = 0,
+    limit: int = 100
+):
+    products = crud.get_products(
+        db=db,
+        search=search,
+        min_price=min_price,
+        max_price=max_price,
+        skip=skip,
+        limit=limit
+    )
+    return products
 
 @router.post("/", response_model=schemas.Product)
 def add_product(
