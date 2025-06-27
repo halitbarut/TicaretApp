@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}Sepetim - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h1>Sepetim</h1>
+    <div id="cart-container">
+        <p class="loading-text">Sepetiniz Yükleniyor...</p>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/pages/cart.js"></script>
+{% endblock %}

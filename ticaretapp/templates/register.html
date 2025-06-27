@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}Kayıt Ol - {{ super() }}{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <h2>Yeni Hesap Oluştur</h2>
+        <p class="subtitle">Aramıza katılmak için bilgilerinizi girin.</p>
+
+        <div id="message-box" style="display: none;"></div>
+
+        <form id="register-form">
+            <div class="form-group">
+                <label for="email">E-posta Adresi</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full-width">
+                Kayıt Ol
+            </button>
+        </form>
+        <p class="form-footer-text">
+            Zaten bir hesabınız var mı? <a href="/login">Giriş Yapın</a>
+        </p>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/pages/register.js"></script>
+{% endblock %}

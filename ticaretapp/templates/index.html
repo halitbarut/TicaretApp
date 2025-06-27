@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}Ürünler - {{ super() }}{% endblock %}
+
+{% block content %}
+    <h1>Ürünlerimiz</h1>
+    <p class="subtitle">En yeni teknoloji ürünlerini keşfedin.</p>
+    
+    <div id="product-list">
+        <p class="loading-text">Ürünler Yükleniyor...</p>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/pages/products.js"></script>
+{% endblock %}

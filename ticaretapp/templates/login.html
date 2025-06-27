@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}Giriş Yap - {{ super() }}{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <h2>Giriş Yap</h2>
+        <p class="subtitle">Hesabınıza erişmek için bilgilerinizi girin.</p>
+
+        <div id="error-message" class="error-box" style="display: none;"></div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">E-posta Adresi</label>
+                <input type="email" id="email" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full-width">
+                Giriş Yap
+            </button>
+        </form>
+        <p class="form-footer-text">
+            Hesabınız yok mu? <a href="/register">Kayıt Olun</a>
+        </p>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/pages/login.js"></script>
+{% endblock %}
